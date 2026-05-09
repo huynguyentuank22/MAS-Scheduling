@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "mas_no_memory": {
+      "success_rate": 1.0,
+      "mean_score": 1.0,
+      "accumulation_mean_score": 1.0,
+      "test_mean_score": 1.0,
+      "total_procedural_memories": 0
+    },
+    "mas_orchestrator_memory": {
+      "success_rate": 1.0,
+      "mean_score": 1.0,
+      "accumulation_mean_score": 1.0,
+      "test_mean_score": 1.0,
+      "total_procedural_memories": 5
+    }
+  },
+  "delta": {
+    "success_rate_improvement": 0.0,
+    "mean_score_improvement": 0.0,
+    "test_score_improvement": 0.0
+  }
+}

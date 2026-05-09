@@ -1,0 +1,74 @@
+{
+  "variants": {
+    "mas_no_memory": {
+      "success_rate": 0.33,
+      "mean_score": 0.499,
+      "accumulation_mean_score": 0.459,
+      "test_mean_score": 0.56,
+      "dependency_violation_rate": 0.0,
+      "order_violation_rate": 0.715,
+      "missing_required_agent_rate": 0.14,
+      "recovery_success_rate": 0.0,
+      "unnecessary_agent_calls": 3.72,
+      "memory_changed_scheduling_decisions": 0,
+      "support_only_count": 0,
+      "changed_agent_selection_count": 0,
+      "changed_ordering_count": 0,
+      "changed_recovery_count": 0,
+      "total_procedural_memories": 0
+    },
+    "mas_orchestrator_memory": {
+      "success_rate": 0.44,
+      "mean_score": 0.598,
+      "accumulation_mean_score": 0.637,
+      "test_mean_score": 0.539,
+      "dependency_violation_rate": 0.0,
+      "order_violation_rate": 0.455,
+      "missing_required_agent_rate": 0.113,
+      "recovery_success_rate": 0.0,
+      "unnecessary_agent_calls": 3.93,
+      "memory_changed_scheduling_decisions": 66,
+      "support_only_count": 388,
+      "changed_agent_selection_count": 66,
+      "changed_ordering_count": 0,
+      "changed_recovery_count": 0,
+      "total_procedural_memories": 10
+    },
+    "mas_shuffled_memory": {
+      "success_rate": 0.4,
+      "mean_score": 0.638,
+      "accumulation_mean_score": 0.598,
+      "test_mean_score": 0.699,
+      "dependency_violation_rate": 0.0,
+      "order_violation_rate": 0.465,
+      "missing_required_agent_rate": 0.14,
+      "recovery_success_rate": 0.0,
+      "unnecessary_agent_calls": 3.71,
+      "memory_changed_scheduling_decisions": 29,
+      "support_only_count": 155,
+      "changed_agent_selection_count": 29,
+      "changed_ordering_count": 0,
+      "changed_recovery_count": 0,
+      "total_procedural_memories": 5
+    }
+  },
+  "delta_vs_no_memory": {
+    "mas_orchestrator_memory": {
+      "success_rate_improvement": 0.11,
+      "mean_score_improvement": 0.099,
+      "order_violation_rate_reduction": 0.26,
+      "missing_required_agent_rate_reduction": 0.027
+    },
+    "mas_shuffled_memory": {
+      "success_rate_improvement": 0.07,
+      "mean_score_improvement": 0.139,
+      "order_violation_rate_reduction": 0.25,
+      "missing_required_agent_rate_reduction": 0.0
+    }
+  },
+  "delta": {
+    "success_rate_improvement": 0.11,
+    "mean_score_improvement": 0.099,
+    "test_score_improvement": -0.021
+  }
+}

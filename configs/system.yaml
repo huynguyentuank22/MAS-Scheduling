@@ -1,0 +1,43 @@
+system:
+  name: orchestrator-local-memory-mas
+  mode: research_mvp
+  seed: 42
+  default_variant: mas_orchestrator_memory
+
+runtime:
+  async_enabled: true
+  max_episode_steps: 30
+  max_agent_turns: 5
+  fail_fast: false
+  trace_enabled: true
+  checkpoint_enabled: true
+
+storage:
+  backend: sqlite
+  sqlite_path: storage/workflows.db
+  trace_dir: storage/traces
+  artifact_dir: storage/artifacts
+  checkpoint_dir: storage/checkpoints
+  memory_dir: storage/memories
+
+memory:
+  enable_orchestrator_local_memory: true
+  enable_blackboard: true
+  enable_memory_curation: true
+  retrieval_top_k: 3
+  min_memory_confidence: 0.35
+  confidence_positive_delta: 0.05
+  confidence_negative_delta: 0.10
+  confidence_negative_transfer_delta: 0.15
+
+policy:
+  enforce_hard_constraints: true
+  allow_policy_suggestions: true
+  auto_apply_policy_suggestions: false
+
+logging:
+  decision_events_append_only: true
+  trace_format: jsonl
+  log_tool_calls: true
+  log_memory_retrieval: true
+  log_policy_decisions: true

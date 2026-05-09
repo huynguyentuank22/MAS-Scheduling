@@ -1,0 +1,15 @@
+{
+  "decision_id": "D_001",
+  "workflow_id": "W_001",
+  "task_id": "T_001",
+  "chosen_action": "spawn_agent",
+  "rationale_summary": "Task requires evidence collection before writing.",
+  "risk_score": 0.2,
+  "human_review_required": false,
+  "input_memory_refs": ["PCM_001"],
+  "policy_refs": ["POL_read_verified_evidence"],
+  "output_refs": [],
+  "cost": null,
+  "latency_sec": null,
+  "timestamp": "2026-01-01T00:00:00Z"
+}

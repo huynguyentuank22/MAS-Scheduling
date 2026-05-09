@@ -1,0 +1,67 @@
+project:
+  name: orchestrator-local-memory-mas
+  display_name: Orchestrator Local Memory for Multi-Agent Systems
+  language: python
+  stage: research_mvp
+  primary_goal: >
+    Build a research prototype where an orchestrator agent uses local control memory to improve
+    multi-agent scheduling, delegation, context selection, access control, retry, replan, and recovery
+    across benchmark episodes.
+
+source_of_truth:
+  requirements: docs/requirements.md
+  architecture: docs/architecture.md
+  schemas: docs/schemas.md
+  implementation_plan: docs/implementation_plan.md
+  evaluation_plan: docs/evaluation_plan.md
+  config_root: configs/
+
+coding_agent:
+  default_model: claude-opus
+  expected_behavior:
+    - read all source_of_truth files before coding
+    - implement in small testable phases
+    - keep code simple and explicit
+    - prefer Pydantic schemas for data contracts
+    - preserve traceability from requirements to code
+    - never hard-code benchmark-specific agents as the main design
+    - log every orchestration decision
+    - separate control plane memory from data plane blackboard
+
+repository_layout:
+  package_name: olm_mas
+  source_dir: src/olm_mas
+  tests_dir: tests
+  scripts_dir: scripts
+  config_dir: configs
+  docs_dir: docs
+  experiments_dir: experiments
+
+mvp_modules:
+  - schemas
+  - memory_store
+  - blackboard
+  - agent_registry
+  - agent_runtime
+  - policy_engine
+  - scheduler
+  - trace_logger
+  - evaluator
+  - memory_curator
+  - benchmark_runner
+  - cli
+
+quality_gates:
+  - unit_tests_pass
+  - type_check_basic
+  - can_run_synthetic_benchmark
+  - produces_trace_jsonl
+  - produces_metrics_json
+  - supports_no_memory_vs_orchestrator_memory_ablation
+
+non_goals:
+  - distributed execution
+  - production security
+  - full UI dashboard
+  - RL scheduler in MVP
+  - complex multi-user permissions in MVP

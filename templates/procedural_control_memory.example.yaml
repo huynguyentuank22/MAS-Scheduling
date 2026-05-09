@@ -1,0 +1,23 @@
+memory_type: procedural_control
+trigger:
+  benchmark: WebArena
+  task_pattern: form_submission
+  constraints:
+    - requires_state_change
+recommended_schedule:
+  - planner
+  - browser_executor
+  - verifier
+avoid:
+  - pattern: submit_before_required_field_check
+    reason: Often causes failed form submissions.
+recommended_recovery:
+  - condition: missing_required_field_detected
+    action: return_to_browser_executor_with_field_check_context
+recommended_policy_template: verifier_before_submit
+confidence: 0.72
+supporting_episodes:
+  - W_012
+  - W_035
+negative_cases: []
+status: active

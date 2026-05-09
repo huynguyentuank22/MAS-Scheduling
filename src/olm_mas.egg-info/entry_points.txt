@@ -1,0 +1,2 @@
+[console_scripts]
+olm-mas = olm_mas.cli:main

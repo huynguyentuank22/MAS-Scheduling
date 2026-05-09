@@ -1,0 +1,26 @@
+{
+  "memory_id": "966b7962-dc64-48f9-bab5-effd232e2bc6",
+  "trigger": {
+    "task_family": "troubleshooting",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.6500000000000001,
+  "supporting_episodes": [
+    "b321e735-9894-44c3-a530-4630e5645135",
+    "502c962e-c75e-4208-8be1-09793770ebce",
+    "e556e886-fea7-465f-bd7f-a6a5d398abeb",
+    "46108c69-20d2-46d0-80e6-e3f3ec16cd75"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-08T11:18:20.039387Z",
+  "status": "active"
+}

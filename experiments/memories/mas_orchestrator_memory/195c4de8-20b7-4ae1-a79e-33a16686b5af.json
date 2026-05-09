@@ -1,0 +1,42 @@
+{
+  "memory_id": "195c4de8-20b7-4ae1-a79e-33a16686b5af",
+  "trigger": {
+    "task_family": "research_report",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "dependency_violations",
+      "reason": "observed failure"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 1.0,
+  "supporting_episodes": [
+    "c795ee71-380b-411c-abc6-82083bf8f4d2",
+    "da5914b3-2ee2-4351-b538-ee302b6bfb2f",
+    "c5cfc58c-2fe4-43a8-8786-9ef223b0a7c4",
+    "ab04c1ed-4d53-4a32-8bc7-cb46d3ac1ad5",
+    "4bcf80cc-2a31-4d79-98f2-ef6591bdfad9",
+    "d22e3496-2dd5-4cf4-bf87-3721df1645b0",
+    "308504ad-a2b3-4b65-b8c9-0ce60c5cc8a1",
+    "dd7d6ed9-9faf-4592-8b9f-d22acfc99538",
+    "2885127b-d7ff-4f01-87f1-97dc268c5b9b",
+    "a61b0954-2b40-49c7-a672-8b440401eb2e",
+    "5525a7d6-b06c-4ba0-9a48-8cd34b6f25e5",
+    "ae3af706-2cd4-4227-893d-fee84ba381fa",
+    "a794228c-e111-47a0-b4ea-de8d599adc35",
+    "9d5fc6fe-a3b5-449d-9212-8122e75e6df3",
+    "ffa619c6-3e8f-4c0a-a869-c983d77a86c7"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-07T11:53:34.799542Z",
+  "status": "active"
+}

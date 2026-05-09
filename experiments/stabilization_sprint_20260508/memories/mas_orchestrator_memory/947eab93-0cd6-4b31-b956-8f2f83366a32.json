@@ -1,0 +1,37 @@
+{
+  "memory_id": "947eab93-0cd6-4b31-b956-8f2f83366a32",
+  "trigger": {
+    "task_family": "content_creation",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "dependency_violations",
+      "reason": "observed failure"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.9500000000000004,
+  "supporting_episodes": [
+    "55f8ce24-e21e-45a1-a51b-c696b9949646",
+    "76f18865-9cf5-43c1-8cec-7bd7913b946f",
+    "1e248855-8d03-453d-b055-b2fb4394eb53",
+    "f2b7f526-e5ca-4d26-bc72-88521bb09ad9",
+    "f0a96732-5898-4422-93c1-ac730fc470c1",
+    "a8f3dcb2-233a-4187-a9a0-febce9702670",
+    "3d0b889a-0afa-47a2-b83a-0d91dfa07ea0",
+    "47e07f92-5893-4f28-92bc-972374b09196",
+    "5aeb6c46-9287-4170-97da-2bace3a052c8",
+    "b263dfb7-05b3-4295-803c-87b420d404b4"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-08T02:23:21.263109Z",
+  "status": "active"
+}

@@ -1,0 +1,30 @@
+{
+  "memory_id": "1cf3b2c8-486b-49a1-9498-cbb9f7f27b33",
+  "trigger": {
+    "task_family": "research_report",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.8500000000000003,
+  "supporting_episodes": [
+    "36af61e9-b927-40d8-89e5-d02bff68c117",
+    "da4e1408-904e-41a4-95f3-4acd7496be34",
+    "2f885ac9-386c-44b7-a56a-6d4708194804",
+    "db4ab867-eb85-4157-9c7b-568cc5b3dd0e",
+    "44191a35-d63d-48cd-8891-4b908e932db6",
+    "3f64e6a4-6fe2-48de-8cae-a1ba36e6bc4e",
+    "0cf52f10-f224-4e20-960e-d118e79c0887",
+    "e3c1443b-62da-4ff2-b316-4b0e33eb2264"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-08T11:18:20.210449Z",
+  "status": "active"
+}

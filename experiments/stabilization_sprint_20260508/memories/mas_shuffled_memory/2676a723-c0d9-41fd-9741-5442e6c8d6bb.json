@@ -1,0 +1,34 @@
+{
+  "memory_id": "2676a723-c0d9-41fd-9741-5442e6c8d6bb",
+  "trigger": {
+    "task_family": "evidence_based_writing",
+    "benchmark": "synthetic",
+    "source_family": "dynamic_recovery"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "recovery",
+    "writer"
+  ],
+  "avoid": [
+    {
+      "action": "retry_same_failed_strategy"
+    }
+  ],
+  "recommended_recovery": [
+    {
+      "when_action": "retry",
+      "min_retry_count": 1,
+      "action": "recovery_agent",
+      "reason": "Escalate after repeated retry"
+    }
+  ],
+  "recommended_policy_template": null,
+  "confidence": 0.88,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-08T12:25:45.501097Z",
+  "status": "active"
+}

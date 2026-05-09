@@ -1,0 +1,1976 @@
+{
+  "mas_no_memory": {
+    "variant": "mas_no_memory",
+    "total_episodes": 50,
+    "success_count": 50,
+    "success_rate": 1.0,
+    "mean_score": 1.0,
+    "accumulation_mean_score": 1.0,
+    "test_mean_score": 1.0,
+    "total_procedural_memories": 0,
+    "episodes": [
+      {
+        "episode_idx": 0,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 1,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 2,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 3,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 4,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 5,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 6,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 7,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 8,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 9,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 10,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 11,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 12,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 13,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.375,
+          "unnecessary_agent_calls": 4.0,
+          "replan_count": 0.0,
+          "retry_count": 4.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 14,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 15,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 16,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 17,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 18,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 19,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 20,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 21,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 22,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 23,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 24,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 25,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 26,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 27,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 28,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 29,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 30,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 31,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 32,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 33,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 34,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 35,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 36,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 37,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 38,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 39,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 40,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 41,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 42,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 43,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 44,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 45,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 46,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 47,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 48,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 3.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      },
+      {
+        "episode_idx": 49,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": []
+      }
+    ]
+  },
+  "mas_orchestrator_memory": {
+    "variant": "mas_orchestrator_memory",
+    "total_episodes": 50,
+    "success_count": 50,
+    "success_rate": 1.0,
+    "mean_score": 1.0,
+    "accumulation_mean_score": 1.0,
+    "test_mean_score": 1.0,
+    "total_procedural_memories": 5,
+    "episodes": [
+      {
+        "episode_idx": 0,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": [
+          [
+            "CREATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 1,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 2,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": [
+          [
+            "CREATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 3,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": [
+          [
+            "CREATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 4,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 5,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 6,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 7,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": [
+          [
+            "CREATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 8,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 9,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 10,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 0,
+        "curation_actions": [
+          [
+            "CREATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 11,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 12,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 13,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 14,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 15,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 16,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 17,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 18,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 19,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 20,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 21,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 22,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 23,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 24,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 25,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 26,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 27,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 28,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 29,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 30,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 31,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 32,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 33,
+        "task_family": "data_analysis",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "bc43156a-75a6-46eb-9b39-a941f6736bfb"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 34,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 35,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 36,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 37,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 38,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 39,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 40,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 41,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 42,
+        "task_family": "code_review",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "c1f212ca-f502-46c6-8e6f-d8d4bbb543ba"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 43,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 44,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 45,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.6,
+          "unnecessary_agent_calls": 1.0,
+          "replan_count": 0.0,
+          "retry_count": 1.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 46,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 47,
+        "task_family": "troubleshooting",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "520ae0bc-9704-49fe-a8e4-d7d1edcf02c0"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 48,
+        "task_family": "research_report",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.5,
+          "unnecessary_agent_calls": 2.0,
+          "replan_count": 0.0,
+          "retry_count": 2.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "5a1af47a-9ac1-4d53-9175-e64642cd0497"
+          ]
+        ]
+      },
+      {
+        "episode_idx": 49,
+        "task_family": "content_creation",
+        "benchmark_success": true,
+        "benchmark_score": 1.0,
+        "scheduling_scores": {
+          "agent_assignment_quality": 1.0,
+          "dependency_violation_rate": 0.75,
+          "unnecessary_agent_calls": 0.0,
+          "replan_count": 0.0,
+          "retry_count": 0.0,
+          "recovery_success_rate": 0.0,
+          "task_completion_rate": 1.0
+        },
+        "memory_used": 1,
+        "curation_actions": [
+          [
+            "UPDATE",
+            "3fc59106-75bf-41ca-b235-1c278bba5c0c"
+          ]
+        ]
+      }
+    ]
+  }
+}

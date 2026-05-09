@@ -1,0 +1,27 @@
+{
+  "memory_id": "3cb5febb-2c4f-4c35-a74a-1e3bdcbb7f0b",
+  "trigger": {
+    "task_family": "debugging",
+    "benchmark": "synthetic",
+    "source_family": "evidence_based_writing"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "writer_before_evidence_complete"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.8,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-08T11:18:20.279781Z",
+  "status": "active"
+}

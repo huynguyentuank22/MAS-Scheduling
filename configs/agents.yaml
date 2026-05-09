@@ -1,0 +1,70 @@
+agents:
+  planner:
+    display_name: Planner
+    role_prompt: >
+      You decompose user goals into a minimal task graph with dependencies and success conditions.
+    capability_tags: [planning, decomposition, task_graph]
+    allowed_tools: [read_memory, write_plan, read_blackboard]
+    disallowed_tools: [external_send, destructive_action]
+    default_permission_mode: read_write_plan
+    max_turns: 4
+    max_parallelism: 1
+    cost_model:
+      relative_cost: medium
+    trust_score: 0.75
+
+  researcher:
+    display_name: Researcher / Browser Executor
+    role_prompt: >
+      You collect evidence, inspect environment state, use browser or retrieval tools, and write evidence artifacts.
+    capability_tags: [retrieval, browsing, evidence_collection, environment_interaction]
+    allowed_tools: [search, browser_read, browser_click, browser_type, read_blackboard, write_artifact]
+    disallowed_tools: [external_send, delete_artifact]
+    default_permission_mode: limited_write
+    max_turns: 8
+    max_parallelism: 2
+    cost_model:
+      relative_cost: high
+    trust_score: 0.70
+
+  writer:
+    display_name: Writer / Executor
+    role_prompt: >
+      You synthesize verified evidence and task context into a draft or perform a requested execution step.
+    capability_tags: [drafting, synthesis, execution]
+    allowed_tools: [read_blackboard, write_artifact]
+    disallowed_tools: [external_send, destructive_action]
+    default_permission_mode: limited_write
+    max_turns: 5
+    max_parallelism: 1
+    cost_model:
+      relative_cost: medium
+    trust_score: 0.70
+
+  critic:
+    display_name: Critic / Verifier
+    role_prompt: >
+      You verify drafts, detect missing evidence, identify contradictions, check constraints, and produce critique artifacts.
+    capability_tags: [verification, critique, constraint_checking, contradiction_detection]
+    allowed_tools: [read_blackboard, write_critique, run_checks]
+    disallowed_tools: [external_send, destructive_action]
+    default_permission_mode: read_only_plus_critique
+    max_turns: 5
+    max_parallelism: 1
+    cost_model:
+      relative_cost: medium
+    trust_score: 0.80
+
+  recovery:
+    display_name: Recovery Agent
+    role_prompt: >
+      You diagnose failures and propose retry, replan, rollback, or escalation actions.
+    capability_tags: [recovery, diagnosis, replanning, rollback]
+    allowed_tools: [read_trace, read_blackboard, read_memory, write_recovery_plan]
+    disallowed_tools: [external_send, destructive_action]
+    default_permission_mode: diagnostic
+    max_turns: 4
+    max_parallelism: 1
+    cost_model:
+      relative_cost: medium
+    trust_score: 0.72

@@ -1,0 +1,39 @@
+benchmarks:
+  synthetic:
+    enabled: true
+    description: Synthetic recurring workflow episodes for MVP development.
+    task_families:
+      evidence_based_writing:
+        pattern: [planner, researcher, critic, writer, critic]
+        failure_modes: [missing_evidence, writer_called_too_early, no_verification]
+      web_form_submission:
+        pattern: [planner, researcher, critic]
+        failure_modes: [submit_before_required_field_check, wrong_target_entity]
+      debugging_workflow:
+        pattern: [planner, researcher, writer, critic, recovery]
+        failure_modes: [edit_before_reproduce, retry_same_failed_action]
+
+  realm_bench:
+    enabled: false
+    adapter: realm_bench
+    purpose: planning_scheduling_disruption
+
+  office_bench:
+    enabled: false
+    adapter: office_bench
+    purpose: workflow_automation_memory_placement
+
+  webarena:
+    enabled: false
+    adapter: webarena
+    purpose: web_agentic_workflow
+
+  gaia:
+    enabled: false
+    adapter: gaia
+    purpose: general_assistant_tool_use
+
+  swe_bench:
+    enabled: false
+    adapter: swe_bench
+    purpose: coding_agent_debugging_workflow

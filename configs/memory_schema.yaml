@@ -1,0 +1,67 @@
+memory_tiers:
+  hot:
+    description: Current task/session state used during active orchestration.
+    types: [task_state, active_plan, active_agent_instances, current_policy_context]
+  warm:
+    description: Recent traces and evaluations used for debugging and curation.
+    types: [execution_trace, decision_event, scheduling_evaluation, recent_failure]
+  cold:
+    description: Distilled long-term control knowledge reused across episodes.
+    types: [procedural_control, agent_performance, policy_selection]
+
+entities:
+  WorkflowSession:
+    fields:
+      workflow_id: uuid
+      objective: string
+      stakeholder_constraints: json
+      benchmark_name: string_optional
+      task_family: string_optional
+      status: enum[created,running,completed,failed]
+      created_at: datetime
+      updated_at: datetime_optional
+      current_plan_version: int
+
+  TaskNode:
+    fields:
+      task_id: uuid
+      workflow_id: uuid
+      parent_id: uuid_optional
+      description: string
+      state: enum[pending,running,done,failed,blocked,skipped]
+      assigned_agent: string_optional
+      retry_count: int
+      checkpoint_ref: string_optional
+      depends_on: list_uuid
+      priority: float_optional
+      risk_score: float_optional
+
+  DecisionEvent:
+    fields:
+      decision_id: uuid
+      workflow_id: uuid
+      task_id: uuid_optional
+      chosen_action: string
+      rationale_summary: string
+      risk_score: float
+      human_review_required: bool
+      input_memory_refs: list_string
+      policy_refs: list_string
+      output_refs: list_string
+      cost: float_optional
+      latency_sec: float_optional
+      timestamp: datetime
+
+  ProceduralControlMemory:
+    fields:
+      memory_id: uuid
+      trigger: json
+      recommended_schedule: list_string
+      avoid: list_json
+      recommended_recovery: list_json
+      recommended_policy_template: string_optional
+      confidence: float
+      supporting_episodes: list_string
+      negative_cases: list_string
+      last_updated: datetime
+      status: enum[active,deprecated,archived]
