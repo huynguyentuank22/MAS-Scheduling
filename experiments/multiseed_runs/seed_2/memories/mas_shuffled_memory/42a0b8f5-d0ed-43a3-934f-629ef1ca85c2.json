@@ -1,0 +1,27 @@
+{
+  "memory_id": "42a0b8f5-d0ed-43a3-934f-629ef1ca85c2",
+  "trigger": {
+    "task_family": "dynamic_recovery",
+    "benchmark": "synthetic",
+    "source_family": "debugging"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "critic",
+    "writer"
+  ],
+  "avoid": [
+    {
+      "action": "patch_before_reproduce"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.83,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:29:42.441348Z",
+  "status": "active"
+}

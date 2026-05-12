@@ -82,7 +82,7 @@ def test_invalid_output_cannot_create_procedural_memory():
     )
     actions = curator.curate(wf, ev, decisions=[])
     assert any(item["action"] == CurationAction.IGNORE for item in actions)
-    assert any("invalid_agent_outputs_present" in item["reason"] for item in actions)
+    assert any("invalid_agent_output_blocks_memory_update" in item["reason"] for item in actions)
 
 
 def test_hallucinated_artifact_ref_is_rejected():

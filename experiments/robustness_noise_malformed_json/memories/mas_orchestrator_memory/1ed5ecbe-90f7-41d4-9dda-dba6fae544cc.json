@@ -1,0 +1,23 @@
+{
+  "memory_id": "1ed5ecbe-90f7-41d4-9dda-dba6fae544cc",
+  "trigger": {
+    "task_family": "research_report",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.5,
+  "supporting_episodes": [
+    "020618d3-e359-42ed-b500-384b0099ea24"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:06:54.851631Z",
+  "status": "active"
+}

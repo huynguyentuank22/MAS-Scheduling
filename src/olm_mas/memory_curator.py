@@ -53,6 +53,32 @@ class MemoryCurator:
         """Run curation logic and return action logs with reasons."""
         actions: list[dict[str, Any]] = []
         decisions = decisions or []
+        invalid_output_block_reason = "invalid_agent_output_blocks_memory_update"
+
+        if self._invalid_output_blocks_memory_update(evaluation):
+            blocked_ids = {
+                mem_id
+                for mem_id in (evaluation.useful_memory_refs + evaluation.harmful_memory_refs)
+                if mem_id and self._store.get_procedural(mem_id)
+            }
+            for mem_id in sorted(blocked_ids):
+                actions.append(
+                    self._action(
+                        action=CurationAction.NEEDS_REVIEW,
+                        memory_id=mem_id,
+                        reason=invalid_output_block_reason,
+                        accepted=False,
+                    )
+                )
+            actions.append(
+                self._action(
+                    action=CurationAction.IGNORE,
+                    memory_id="",
+                    reason=invalid_output_block_reason,
+                    accepted=False,
+                )
+            )
+            return actions
 
         # 1. Update existing memories that were used
         for mem_id in evaluation.useful_memory_refs:
@@ -146,12 +172,8 @@ class MemoryCurator:
                 )
 
         # 2. Decide whether to create new memory
-        schema_valid_rate = float(evaluation.scheduling_scores.get("agent_output_schema_valid_rate", 1.0))
-        invalid_outputs_present = schema_valid_rate < 1.0
-
         should_create = (
             evaluation.benchmark_success
-            and not invalid_outputs_present
             and (
                 not evaluation.memory_used
                 or self._is_novel_task_family(workflow.task_family)
@@ -187,15 +209,6 @@ class MemoryCurator:
                         accepted=False,
                     )
                 )
-        elif invalid_outputs_present and evaluation.benchmark_success:
-            actions.append(
-                self._action(
-                    action=CurationAction.IGNORE,
-                    memory_id="",
-                    reason="invalid_agent_outputs_present",
-                    accepted=False,
-                )
-            )
         elif not evaluation.benchmark_success and not evaluation.memory_used:
             actions.append(
                 self._action(
@@ -261,3 +274,10 @@ class MemoryCurator:
             "reason": reason,
             "accepted": accepted,
         }
+
+    @staticmethod
+    def _invalid_output_blocks_memory_update(evaluation: SchedulingEvaluation) -> bool:
+        """Block CREATE/UPDATE on invalid noisy outputs (missing fields/hallucinated refs)."""
+        scores = evaluation.scheduling_scores
+        schema_valid_rate = float(scores.get("agent_output_schema_valid_rate", 1.0))
+        return schema_valid_rate < 1.0

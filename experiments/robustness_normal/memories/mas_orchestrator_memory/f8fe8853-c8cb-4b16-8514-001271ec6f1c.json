@@ -1,0 +1,39 @@
+{
+  "memory_id": "f8fe8853-c8cb-4b16-8514-001271ec6f1c",
+  "trigger": {
+    "task_family": "dynamic_recovery",
+    "benchmark": "synthetic",
+    "source_family": "dynamic_recovery"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "recovery",
+    "writer"
+  ],
+  "avoid": [
+    {
+      "action": "retry_same_failed_strategy"
+    }
+  ],
+  "recommended_recovery": [
+    {
+      "when_action": "retry",
+      "min_retry_count": 1,
+      "action": "recovery_agent",
+      "reason": "Escalate after repeated retry"
+    }
+  ],
+  "recommended_policy_template": null,
+  "confidence": 0.2799999999999999,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [
+    "880b2e48-4fab-42c2-b760-47f97e674b06",
+    "108e577d-8352-45c2-9358-8a8df9a1420d",
+    "2943cd97-e77e-48d9-82b8-78c83dfb2f44",
+    "50a78470-f2fa-45ae-90b2-0ebe9fb0c226"
+  ],
+  "last_updated": "2026-05-12T08:06:38.867823Z",
+  "status": "active"
+}

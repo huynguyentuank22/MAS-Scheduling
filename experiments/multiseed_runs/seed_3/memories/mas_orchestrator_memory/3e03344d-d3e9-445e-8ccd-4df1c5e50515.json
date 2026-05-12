@@ -1,0 +1,28 @@
+{
+  "memory_id": "3e03344d-d3e9-445e-8ccd-4df1c5e50515",
+  "trigger": {
+    "task_family": "data_analysis",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "excessive_retries",
+      "reason": "observed failure"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.5,
+  "supporting_episodes": [
+    "ad323e26-8431-412d-8ae7-eb7bed86bc4b"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:29:48.165025Z",
+  "status": "active"
+}

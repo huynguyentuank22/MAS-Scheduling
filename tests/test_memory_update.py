@@ -217,3 +217,121 @@ def test_curator_creates_for_novel_family():
 
     mems = store.list_procedural()
     assert any(m.trigger.get("task_family") == "data_analysis" for m in mems)
+
+
+def test_invalid_agent_output_blocks_create():
+    curator, store = _make_curator()
+    wf = WorkflowSession(objective="test", task_family="novel_family")
+    ev = SchedulingEvaluation(
+        workflow_id=wf.workflow_id,
+        benchmark_success=True,
+        benchmark_score=1.0,
+        scheduling_scores={
+            "agent_assignment_quality": 0.9,
+            "agent_output_schema_valid_rate": 0.0,
+            "parse_failure_rate": 0.0,
+        },
+    )
+
+    actions = curator.curate(wf, ev)
+
+    assert all(item["action"] != CurationAction.CREATE for item in actions)
+    assert all(item["action"] != CurationAction.UPDATE for item in actions)
+    assert all(item["action"] != CurationAction.DEPRECATE for item in actions)
+    assert any(item["action"] == CurationAction.IGNORE for item in actions)
+    assert any(item["reason"] == "invalid_agent_output_blocks_memory_update" for item in actions)
+    assert len(store.list_procedural()) == 0
+
+
+def test_invalid_agent_output_blocks_update():
+    curator, store = _make_curator()
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.5,
+        supporting_episodes=["seeded"],
+    )
+    store.put_procedural(mem)
+
+    wf = WorkflowSession(objective="test", task_family="research_report")
+    ev = SchedulingEvaluation(
+        workflow_id=wf.workflow_id,
+        benchmark_success=True,
+        scheduling_scores={
+            "agent_output_schema_valid_rate": 0.0,
+            "parse_failure_rate": 0.0,
+        },
+        useful_memory_refs=[mem.memory_id],
+        memory_used=[mem.memory_id],
+    )
+
+    actions = curator.curate(wf, ev)
+
+    assert all(item["action"] != CurationAction.UPDATE for item in actions)
+    assert all(item["action"] != CurationAction.CREATE for item in actions)
+    assert any(
+        item["action"] == CurationAction.NEEDS_REVIEW
+        and item["memory_id"] == mem.memory_id
+        and item["reason"] == "invalid_agent_output_blocks_memory_update"
+        for item in actions
+    )
+
+
+def test_invalid_output_confidence_does_not_increase():
+    curator, store = _make_curator()
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.6,
+        supporting_episodes=["seeded"],
+    )
+    store.put_procedural(mem)
+
+    wf = WorkflowSession(objective="test", task_family="research_report")
+    ev = SchedulingEvaluation(
+        workflow_id=wf.workflow_id,
+        benchmark_success=True,
+        scheduling_scores={
+            "agent_output_schema_valid_rate": 0.0,
+            "parse_failure_rate": 0.0,
+        },
+        useful_memory_refs=[mem.memory_id],
+        memory_used=[mem.memory_id],
+    )
+
+    curator.curate(wf, ev)
+    updated = store.get_procedural(mem.memory_id)
+    assert updated is not None
+    assert updated.confidence == 0.6
+
+
+def test_invalid_output_allows_needs_review_only():
+    curator, store = _make_curator()
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.6,
+        supporting_episodes=["seeded"],
+    )
+    store.put_procedural(mem)
+
+    wf = WorkflowSession(objective="test", task_family="research_report")
+    ev = SchedulingEvaluation(
+        workflow_id=wf.workflow_id,
+        benchmark_success=False,
+        scheduling_scores={
+            "agent_output_schema_valid_rate": 0.0,
+            "parse_failure_rate": 0.0,
+        },
+        useful_memory_refs=[mem.memory_id],
+        harmful_memory_refs=[mem.memory_id],
+        memory_used=[mem.memory_id],
+    )
+
+    actions = curator.curate(wf, ev)
+
+    allowed = {CurationAction.IGNORE, CurationAction.NEEDS_REVIEW}
+    assert actions
+    assert all(item["action"] in allowed for item in actions)
+    assert any(item["action"] == CurationAction.NEEDS_REVIEW for item in actions)
+    assert all(item["reason"] == "invalid_agent_output_blocks_memory_update" for item in actions)

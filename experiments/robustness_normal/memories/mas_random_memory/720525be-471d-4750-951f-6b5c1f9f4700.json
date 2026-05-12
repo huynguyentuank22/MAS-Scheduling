@@ -1,0 +1,30 @@
+{
+  "memory_id": "720525be-471d-4750-951f-6b5c1f9f4700",
+  "trigger": {
+    "task_family": "form_submission",
+    "benchmark": "synthetic",
+    "source_family": "form_submission"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "critic",
+    "writer"
+  ],
+  "avoid": [
+    {
+      "action": "submit_before_required_field_check"
+    },
+    {
+      "action": "finalize_without_verifier"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.82,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:06:40.101659Z",
+  "status": "active"
+}

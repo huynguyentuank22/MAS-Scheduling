@@ -1,0 +1,52 @@
+experiment:
+  name: robustness_noise_hallucinated_artifact_ref
+  benchmark: synthetic
+  num_episodes: 100
+  hard_family_ratio: 0.7
+  split:
+    accumulation: 60
+    test: 40
+  random_seed: 42
+
+variants:
+  mas_no_memory:
+    enabled: true
+    orchestrator_local_memory: false
+    blackboard: true
+    memory_curation: false
+    policy_engine: true
+    llm_noise_enabled: true
+    llm_noise_mode: hallucinated_artifact_ref
+
+  mas_orchestrator_memory:
+    enabled: true
+    orchestrator_local_memory: true
+    blackboard: true
+    memory_curation: true
+    policy_engine: true
+    seed_memories: true
+    memory_source: curated
+    llm_noise_enabled: true
+    llm_noise_mode: hallucinated_artifact_ref
+
+  mas_shuffled_memory:
+    enabled: true
+    orchestrator_local_memory: true
+    memory_source: shuffled
+    seed_memories: true
+    blackboard: true
+    memory_curation: false
+    policy_engine: true
+    llm_noise_enabled: true
+    llm_noise_mode: hallucinated_artifact_ref
+
+  mas_random_memory:
+    enabled: true
+    orchestrator_local_memory: true
+    memory_source: random
+    seed_memories: true
+    blackboard: true
+    memory_curation: false
+    policy_engine: true
+    llm_noise_enabled: true
+    llm_noise_mode: hallucinated_artifact_ref

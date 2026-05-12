@@ -1,0 +1,28 @@
+{
+  "memory_id": "fb6c1c6d-1ac5-4cbe-9fa9-445847c6b60d",
+  "trigger": {
+    "task_family": "code_review",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "excessive_retries",
+      "reason": "observed failure"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.5,
+  "supporting_episodes": [
+    "b4132355-d68a-440a-b18b-a26a6c098a6f"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:29:41.608207Z",
+  "status": "active"
+}

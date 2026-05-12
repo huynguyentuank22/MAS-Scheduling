@@ -1,0 +1,32 @@
+{
+  "memory_id": "91abd8e0-55fe-4a90-b039-1c5137cbbd56",
+  "trigger": {
+    "task_family": "evidence_based_writing",
+    "benchmark": "synthetic",
+    "source_family": "evidence_based_writing"
+  },
+  "recommended_schedule": [
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [
+    {
+      "action": "writer_before_evidence_complete"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.19999999999999998,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [
+    "a76af2f8-f1a4-44f9-bd6a-f05328c95a07",
+    "e2fbff33-2e2a-4763-a671-210d243a76b1",
+    "409bb05a-f81d-44fb-9ebd-fa91f329e4f0",
+    "8a1fcac0-cb7b-4849-aded-40f988ad4916"
+  ],
+  "last_updated": "2026-05-12T08:29:42.040237Z",
+  "status": "active"
+}
