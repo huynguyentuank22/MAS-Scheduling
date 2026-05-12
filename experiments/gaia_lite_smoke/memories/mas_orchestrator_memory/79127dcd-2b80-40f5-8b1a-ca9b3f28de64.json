@@ -1,0 +1,32 @@
+{
+  "memory_id": "79127dcd-2b80-40f5-8b1a-ca9b3f28de64",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "numeric_reasoning",
+    "source_family": "numeric_reasoning"
+  },
+  "recommended_schedule": [
+    "planner",
+    "tool_executor",
+    "calculator",
+    "verifier"
+  ],
+  "avoid": [
+    {
+      "action": "writer_before_evidence_complete"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 1.0,
+  "supporting_episodes": [
+    "seeded",
+    "ee546f96-c886-4209-bb90-5c901bf5851b",
+    "d3580ee1-d9ac-4765-bf37-06bba2c64823",
+    "4e301f1a-e9b0-454e-99f9-6543a2f15fa0",
+    "2d999f09-f50b-4a78-a55d-a1a3219dacc1"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:59:44.600859Z",
+  "status": "active"
+}

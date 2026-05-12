@@ -51,8 +51,12 @@ class AgentRegistry:
         defaults = [
             ("planner", ["planning", "decomposition", "task_graph"], 0.75),
             ("researcher", ["retrieval", "browsing", "evidence_collection"], 0.70),
+            ("tool_executor", ["tool_use", "retrieval", "web_navigation"], 0.68),
+            ("calculator", ["arithmetic", "numeric_reasoning", "verification"], 0.72),
+            ("file_reader", ["file_reading", "document_parsing", "evidence_collection"], 0.70),
             ("writer", ["drafting", "synthesis", "execution"], 0.70),
             ("critic", ["verification", "critique", "constraint_checking"], 0.80),
+            ("verifier", ["verification", "consistency_checking", "constraint_checking"], 0.80),
             ("recovery", ["recovery", "diagnosis", "replanning"], 0.72),
         ]
         for agent_type, tags, trust in defaults:

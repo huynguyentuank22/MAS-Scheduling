@@ -1,0 +1,32 @@
+{
+  "memory_id": "1d9262b0-cc84-4710-b256-a6b5c2a6ebce",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "web_research",
+    "source_family": "web_research"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "verifier"
+  ],
+  "avoid": [
+    {
+      "action": "writer_before_evidence_complete"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 1.0,
+  "supporting_episodes": [
+    "seeded",
+    "25dae477-0ba0-4e8b-a9c3-efc939ff6a7e",
+    "ea5d0bf1-1afb-4cfc-91c3-667d3bfd7327",
+    "96053d46-cd58-487a-a905-d32fb71ba81b",
+    "61f7ea14-fd31-4151-b7a6-d7adf66f3869"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T08:59:44.648927Z",
+  "status": "active"
+}

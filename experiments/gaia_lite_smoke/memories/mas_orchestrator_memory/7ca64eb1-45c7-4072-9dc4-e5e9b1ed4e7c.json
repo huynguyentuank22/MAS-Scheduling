@@ -1,0 +1,33 @@
+{
+  "memory_id": "7ca64eb1-45c7-4072-9dc4-e5e9b1ed4e7c",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "file_question",
+    "source_family": "file_question"
+  },
+  "recommended_schedule": [
+    "planner",
+    "file_reader",
+    "writer",
+    "verifier"
+  ],
+  "avoid": [
+    {
+      "action": "finalize_without_verifier"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.8000000000000002,
+  "supporting_episodes": [
+    "seeded",
+    "7ffc3be4-5c8d-4c82-aecc-f66ff49e547f",
+    "3dbf3bb2-569f-4afc-9b31-91c6e28ca705",
+    "49f32261-a602-4f11-b0a0-b4d739259bd1"
+  ],
+  "negative_cases": [
+    "6411af05-9896-41cb-9ec4-5fbcaab87f8c"
+  ],
+  "last_updated": "2026-05-12T08:59:44.777147Z",
+  "status": "active"
+}

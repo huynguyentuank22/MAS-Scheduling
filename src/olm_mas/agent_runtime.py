@@ -36,11 +36,40 @@ _MOCK_OUTPUTS: dict[str, dict[str, Any]] = {
             "sources": ["source_1"],
         },
     },
+    "tool_executor": {
+        "artifact_type": "tool_result",
+        "template": {
+            "tool_calls": ["search"],
+            "result": "Tool execution completed",
+        },
+    },
+    "calculator": {
+        "artifact_type": "calculation",
+        "template": {
+            "expression": "2+2",
+            "result": 4,
+        },
+    },
+    "file_reader": {
+        "artifact_type": "file_notes",
+        "template": {
+            "filename": "sample.txt",
+            "summary": "Read and summarized file contents.",
+        },
+    },
     "writer": {
         "artifact_type": "draft",
         "template": {
             "draft_text": "Draft output based on evidence and task context.",
             "word_count": 150,
+        },
+    },
+    "verifier": {
+        "artifact_type": "verification",
+        "template": {
+            "checks": ["consistency", "constraints"],
+            "pass": True,
+            "score": 0.85,
         },
     },
     "critic": {
