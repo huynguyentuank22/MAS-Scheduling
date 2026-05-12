@@ -1,0 +1,23 @@
+{
+  "memory_id": "eb3a594c-4333-4800-9398-7e7a0ce7878d",
+  "trigger": {
+    "task_family": "troubleshooting",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.5,
+  "supporting_episodes": [
+    "3af4b0da-72d2-4c06-970d-a7d8fe245058"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T07:50:58.214820Z",
+  "status": "active"
+}

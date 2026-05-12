@@ -1,0 +1,30 @@
+{
+  "memory_id": "2e137ae9-5048-429b-b335-c411658ae45f",
+  "trigger": {
+    "task_family": "code_review",
+    "benchmark": "synthetic"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "writer",
+    "critic"
+  ],
+  "avoid": [],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.8500000000000003,
+  "supporting_episodes": [
+    "9d90d9e0-c857-4b28-8bfb-d6e9b491537f",
+    "5c5bf712-d58c-484f-9932-ac7e1b25fece",
+    "96e75c12-c79a-46c2-8e5a-0acad5f1b339",
+    "aa817649-1d95-4fab-bd0b-2832cf12479a",
+    "24df9f70-9864-4671-aac1-e3a17c5f4ade",
+    "7ff517f7-23bf-4cb9-a8d1-1e7b76ee3179",
+    "51a6c28a-bdfd-4c1d-bf73-f4348506ced0",
+    "bda126c6-8505-444c-90b7-ef10b9d6d437"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T07:50:58.825228Z",
+  "status": "active"
+}

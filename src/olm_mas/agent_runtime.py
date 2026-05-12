@@ -1,16 +1,16 @@
-"""Mock agent runtime.
+"""Agent runtime with schema-validated outputs.
 
-Each agent type produces structured output simulating real agent behaviour.
-Quality and latency are simulated with seeded randomness for reproducibility.
+Mock runtime behavior is preserved while all outputs pass through
+LLMOutputParser and AgentOutput validation.
 """
 
 from __future__ import annotations
 
 import random
-import time
 from typing import Any
 
-from .schemas import AgentProfile, Artifact, _now, _uuid
+from .llm_output_parser import LLMOutputParser
+from .schemas import AgentOutput, AgentOutputStatus, AgentProfile
 
 
 # ---------------------------------------------------------------------------
@@ -63,11 +63,17 @@ _MOCK_OUTPUTS: dict[str, dict[str, Any]] = {
 
 
 class AgentRuntime:
-    """Simulates agent execution and returns structured output."""
+    """Simulates agent execution and returns schema-validated output."""
 
-    def __init__(self, seed: int = 42, failure_rate: float = 0.10) -> None:
+    def __init__(
+        self,
+        seed: int = 42,
+        failure_rate: float = 0.10,
+        output_parser: LLMOutputParser | None = None,
+    ) -> None:
         self._rng = random.Random(seed)
         self._failure_rate = failure_rate
+        self._parser = output_parser or LLMOutputParser()
 
     def run(
         self,
@@ -76,40 +82,155 @@ class AgentRuntime:
         context: dict[str, Any] | None = None,
         quality_boost: float = 0.0,
     ) -> dict[str, Any]:
-        """Run a mock agent and return a result dict.
+        """Run an agent and return validated output with runtime metadata."""
+        del context  # reserved for future real runtime wiring.
 
-        Returns:
-            dict with keys: success, artifact_type, content, latency_sec
-        """
+        raw_output, fallback_artifact_type, latency = self._generate_raw_output(
+            profile=profile,
+            task_description=task_description,
+            quality_boost=quality_boost,
+        )
+        parsed = self._parser.parse(raw_output, default_artifact_type=fallback_artifact_type)
+        parse_meta = self._parser.last_metrics
+
+        success = bool(
+            parsed.schema_valid
+            and parsed.status in {AgentOutputStatus.SUCCESS, AgentOutputStatus.PARTIAL_SUCCESS}
+        )
+
+        return {
+            "success": success,
+            "artifact_type": parsed.artifact_type,
+            "content": parsed.artifact_payload,
+            "latency_sec": latency,
+            "agent_output": parsed,
+            "parse_meta": parse_meta,
+        }
+
+    def _generate_raw_output(
+        self,
+        profile: AgentProfile,
+        task_description: str,
+        quality_boost: float,
+    ) -> tuple[Any, str, float]:
         agent_type = profile.agent_type
-        mock = _MOCK_OUTPUTS.get(agent_type, {
-            "artifact_type": "generic",
-            "template": {"output": "generic output"},
-        })
+        mock = _MOCK_OUTPUTS.get(
+            agent_type,
+            {
+                "artifact_type": "generic",
+                "template": {"output": "generic output"},
+            },
+        )
+        latency = round(self._rng.uniform(0.05, 0.3), 3)
 
-        # Simulate failure
         if self._rng.random() < self._failure_rate:
-            return {
-                "success": False,
-                "artifact_type": mock["artifact_type"],
-                "content": {"error": f"Agent {agent_type} failed on task"},
-                "latency_sec": round(self._rng.uniform(0.1, 0.5), 3),
-            }
+            return (
+                {
+                    "status": "failed",
+                    "summary": f"Agent {agent_type} failed on task",
+                    "artifact_type": mock["artifact_type"],
+                    "artifact_payload": {"error": f"Agent {agent_type} failed on task"},
+                    "confidence": 0.0,
+                    "uncertainties": ["execution_failure"],
+                },
+                mock["artifact_type"],
+                latency,
+            )
 
-        # Simulate output with optional quality variation
         content = dict(mock["template"])
+        confidence = 0.75
+        uncertainties: list[str] = []
+
         if agent_type == "critic":
             base_score = 0.85 + quality_boost
             noisy_score = base_score + self._rng.uniform(-0.1, 0.1)
             noisy_score = max(0.0, min(1.0, noisy_score))
             content["score"] = round(noisy_score, 3)
             content["pass"] = noisy_score >= 0.6
+            confidence = max(0.0, min(1.0, noisy_score))
 
-        latency = round(self._rng.uniform(0.05, 0.3), 3)
+        summary = f"{agent_type} completed task: {task_description[:80]}"
 
-        return {
-            "success": True,
-            "artifact_type": mock["artifact_type"],
-            "content": content,
-            "latency_sec": latency,
-        }
+        return (
+            {
+                "status": "success",
+                "summary": summary,
+                "artifact_type": mock["artifact_type"],
+                "artifact_payload": content,
+                "confidence": round(confidence, 3),
+                "uncertainties": uncertainties,
+            },
+            mock["artifact_type"],
+            latency,
+        )
+
+
+class NoisyLLMRuntime(AgentRuntime):
+    """Runtime that emits noisy LLM-like outputs for parser/curation robustness tests."""
+
+    def __init__(
+        self,
+        seed: int = 42,
+        failure_rate: float = 0.0,
+        output_parser: LLMOutputParser | None = None,
+        noise_mode: str = "malformed_json",
+    ) -> None:
+        super().__init__(seed=seed, failure_rate=failure_rate, output_parser=output_parser)
+        self._noise_mode = noise_mode
+
+    def _generate_raw_output(
+        self,
+        profile: AgentProfile,
+        task_description: str,
+        quality_boost: float,
+    ) -> tuple[Any, str, float]:
+        base_output, fallback_artifact_type, latency = super()._generate_raw_output(
+            profile=profile,
+            task_description=task_description,
+            quality_boost=quality_boost,
+        )
+
+        if self._noise_mode == "malformed_json":
+            malformed = (
+                '{"status":"success","summary":"Recovered JSON","artifact_type":"'
+                + fallback_artifact_type
+                + '","artifact_payload":{"text":"ok",},"confidence":0.6,"uncertainties":[]}'
+            )
+            return malformed, fallback_artifact_type, latency
+
+        if self._noise_mode == "missing_fields":
+            missing = {
+                "status": "success",
+                "artifact_type": fallback_artifact_type,
+                "confidence": 0.7,
+            }
+            return missing, fallback_artifact_type, latency
+
+        if self._noise_mode == "hallucinated_artifact_ref":
+            hallucinated = {
+                "status": "success",
+                "summary": "Looks valid but injects runtime field",
+                "artifact_type": fallback_artifact_type,
+                "artifact_payload": {"text": "danger"},
+                "confidence": 0.7,
+                "uncertainties": [],
+                "artifact_id": "llm-fake-artifact-id",
+            }
+            return hallucinated, fallback_artifact_type, latency
+
+        if self._noise_mode == "overgeneralized_lesson":
+            lesson_payload = {
+                "status": "success",
+                "summary": "Always call critic first for every task",
+                "artifact_type": "lesson",
+                "artifact_payload": {
+                    "lesson": "always call critic",
+                    "rule": "always call critic",
+                    "scope": "all tasks",
+                },
+                "confidence": 0.95,
+                "uncertainties": [],
+            }
+            return lesson_payload, "lesson", latency
+
+        return base_output, fallback_artifact_type, latency

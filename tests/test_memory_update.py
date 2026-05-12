@@ -35,7 +35,7 @@ def test_create_new_memory_on_success():
 
     actions = curator.curate(wf, ev)
     assert len(actions) == 1
-    assert actions[0][0] == CurationAction.CREATE
+    assert actions[0]["action"] == CurationAction.CREATE
     # Memory should now exist in the store
     mems = store.list_procedural()
     assert len(mems) == 1
@@ -44,19 +44,28 @@ def test_create_new_memory_on_success():
 
 def test_update_useful_memory():
     curator, store = _make_curator()
-    mem = ProceduralControlMemory(confidence=0.5)
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.5,
+        supporting_episodes=["seeded"],
+    )
     store.put_procedural(mem)
 
     wf = WorkflowSession(objective="test")
     ev = SchedulingEvaluation(
         workflow_id=wf.workflow_id,
         benchmark_success=True,
+        scheduling_scores={
+            "agent_output_schema_valid_rate": 1.0,
+            "parse_failure_rate": 0.0,
+        },
         useful_memory_refs=[mem.memory_id],
         memory_used=[mem.memory_id],
     )
 
     actions = curator.curate(wf, ev)
-    assert any(a == CurationAction.UPDATE for a, _ in actions)
+    assert any(item["action"] == CurationAction.UPDATE for item in actions)
 
     # Confidence should have increased
     updated = store.get_procedural(mem.memory_id)
@@ -66,7 +75,12 @@ def test_update_useful_memory():
 
 def test_deprecate_harmful_memory():
     curator, store = _make_curator()
-    mem = ProceduralControlMemory(confidence=0.20)
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.20,
+        supporting_episodes=["seeded"],
+    )
     store.put_procedural(mem)
 
     wf = WorkflowSession(objective="test")
@@ -80,7 +94,7 @@ def test_deprecate_harmful_memory():
 
     actions = curator.curate(wf, ev)
     # Should deprecate because 0.20 - 0.15 = 0.05 < 0.15 threshold
-    assert any(a == CurationAction.DEPRECATE for a, _ in actions)
+    assert any(item["action"] == CurationAction.DEPRECATE for item in actions)
 
     updated = store.get_procedural(mem.memory_id)
     assert updated is not None
@@ -89,7 +103,12 @@ def test_deprecate_harmful_memory():
 
 def test_update_harmful_above_threshold():
     curator, store = _make_curator()
-    mem = ProceduralControlMemory(confidence=0.60)
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.60,
+        supporting_episodes=["seeded"],
+    )
     store.put_procedural(mem)
 
     wf = WorkflowSession(objective="test")
@@ -103,7 +122,7 @@ def test_update_harmful_above_threshold():
 
     actions = curator.curate(wf, ev)
     # 0.60 - 0.10 = 0.50 > 0.15 → UPDATE, not DEPRECATE
-    assert any(a == CurationAction.UPDATE for a, _ in actions)
+    assert any(item["action"] == CurationAction.UPDATE for item in actions)
 
     updated = store.get_procedural(mem.memory_id)
     assert updated is not None
@@ -120,18 +139,27 @@ def test_ignore_on_failure_no_memory():
     )
 
     actions = curator.curate(wf, ev)
-    assert any(a == CurationAction.IGNORE for a, _ in actions)
+    assert any(item["action"] == CurationAction.IGNORE for item in actions)
 
 
 def test_supporting_episodes_tracked():
     curator, store = _make_curator()
-    mem = ProceduralControlMemory(confidence=0.5)
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.5,
+        supporting_episodes=["seeded"],
+    )
     store.put_procedural(mem)
 
     wf = WorkflowSession(objective="test")
     ev = SchedulingEvaluation(
         workflow_id=wf.workflow_id,
         benchmark_success=True,
+        scheduling_scores={
+            "agent_output_schema_valid_rate": 1.0,
+            "parse_failure_rate": 0.0,
+        },
         useful_memory_refs=[mem.memory_id],
         memory_used=[mem.memory_id],
     )
@@ -144,7 +172,12 @@ def test_supporting_episodes_tracked():
 
 def test_negative_cases_tracked():
     curator, store = _make_curator()
-    mem = ProceduralControlMemory(confidence=0.8)
+    mem = ProceduralControlMemory(
+        trigger={"task_family": "research_report"},
+        recommended_schedule=["planner", "researcher", "writer", "critic"],
+        confidence=0.8,
+        supporting_episodes=["seeded"],
+    )
     store.put_procedural(mem)
 
     wf = WorkflowSession(objective="test")
@@ -180,7 +213,7 @@ def test_curator_creates_for_novel_family():
     )
 
     actions = curator.curate(wf, ev)
-    assert any(a == CurationAction.CREATE for a, _ in actions)
+    assert any(item["action"] == CurationAction.CREATE for item in actions)
 
     mems = store.list_procedural()
     assert any(m.trigger.get("task_family") == "data_analysis" for m in mems)

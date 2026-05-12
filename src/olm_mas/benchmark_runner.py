@@ -15,7 +15,7 @@ from typing import Any
 import yaml
 
 from .agent_registry import AgentRegistry
-from .agent_runtime import AgentRuntime
+from .agent_runtime import AgentRuntime, NoisyLLMRuntime
 from .blackboard import Blackboard
 from .evaluator import SchedulingEvaluator
 from .memory_curator import MemoryCurator
@@ -141,12 +141,22 @@ class BenchmarkRunner:
         use_curation = variant_cfg.get("memory_curation", False)
         memory_source = str(variant_cfg.get("memory_source", "curated"))
         seed_memories = bool(variant_cfg.get("seed_memories", use_memory))
+        llm_noise_enabled = bool(variant_cfg.get("llm_noise_enabled", False))
+        llm_noise_mode = str(variant_cfg.get("llm_noise_mode", "malformed_json"))
 
         trace_dir = str(Path(self._output_dir) / "traces" / variant_name)
         memory_dir = str(Path(self._output_dir) / "memories" / variant_name)
 
         registry = AgentRegistry()
-        runtime = AgentRuntime(seed=seed, failure_rate=0.25)
+        runtime = (
+            NoisyLLMRuntime(
+                seed=seed,
+                failure_rate=0.25,
+                noise_mode=llm_noise_mode,
+            )
+            if llm_noise_enabled
+            else AgentRuntime(seed=seed, failure_rate=0.25)
+        )
         memory_store = MemoryStore(memory_dir=memory_dir if use_memory else None)
         blackboard = Blackboard()
         policy_engine = PolicyEngine()
@@ -193,7 +203,7 @@ class BenchmarkRunner:
                 "benchmark_score": ev.benchmark_score,
                 "scheduling_scores": ev.scheduling_scores,
                 "memory_used": len(ev.memory_used),
-                "curation_actions": [(a.value, mid) for a, mid in result["curation_actions"]],
+                "curation_actions": self._serialize_curation_actions(result["curation_actions"]),
             }
             episode_results.append(ep_summary)
 
@@ -248,6 +258,15 @@ class BenchmarkRunner:
             "changed_agent_selection_count": _sum_sched("changed_agent_selection_count"),
             "changed_ordering_count": _sum_sched("changed_ordering_count"),
             "changed_recovery_count": _sum_sched("changed_recovery_count"),
+            "agent_output_schema_valid_rate": _mean_sched("agent_output_schema_valid_rate"),
+            "parse_failure_rate": _mean_sched("parse_failure_rate"),
+            "repair_success_rate": _mean_sched("repair_success_rate"),
+            "invalid_artifact_ref_rate": _mean_sched("invalid_artifact_ref_rate"),
+            "memory_validation_failure_rate": _mean_sched("memory_validation_failure_rate"),
+            "unsupported_lesson_rate": _mean_sched("unsupported_lesson_rate"),
+            "overgeneralized_memory_rate": _mean_sched("overgeneralized_memory_rate"),
+            "curator_accept_rate": _mean_sched("curator_accept_rate"),
+            "curator_reject_rate": _mean_sched("curator_reject_rate"),
             "total_procedural_memories": total_memories,
             "episodes": episode_results,
         }
@@ -323,6 +342,15 @@ class BenchmarkRunner:
             "changed_agent_selection_count",
             "changed_ordering_count",
             "changed_recovery_count",
+            "agent_output_schema_valid_rate",
+            "parse_failure_rate",
+            "repair_success_rate",
+            "invalid_artifact_ref_rate",
+            "memory_validation_failure_rate",
+            "unsupported_lesson_rate",
+            "overgeneralized_memory_rate",
+            "curator_accept_rate",
+            "curator_reject_rate",
             "total_procedural_memories",
         ]
 
@@ -357,3 +385,22 @@ class BenchmarkRunner:
                 }
 
         return comparison
+
+    @staticmethod
+    def _serialize_curation_actions(actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        serialized: list[dict[str, Any]] = []
+        for item in actions:
+            action = item.get("action")
+            if hasattr(action, "value"):
+                action_value = action.value
+            else:
+                action_value = str(action)
+            serialized.append(
+                {
+                    "action": action_value,
+                    "memory_id": str(item.get("memory_id") or ""),
+                    "reason": str(item.get("reason") or ""),
+                    "accepted": bool(item.get("accepted", False)),
+                }
+            )
+        return serialized

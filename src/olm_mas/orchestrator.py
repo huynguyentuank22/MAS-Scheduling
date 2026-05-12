@@ -10,6 +10,9 @@ from typing import Any, Optional
 
 from .schemas import (
     AgentProfile,
+    AgentOutput,
+    AgentOutputStatus,
+    CurationAction,
     DecisionEvent,
     EpisodeReflection,
     ExecutionTraceEvent,
@@ -117,6 +120,15 @@ class Orchestrator:
         decisions: list[DecisionEvent] = []
         memory_refs_used: list[str] = []
         episode_agent_stats: dict[str, dict[str, float]] = {}
+        output_validation_stats: dict[str, float] = {
+            "agent_calls": 0.0,
+            "schema_valid_calls": 0.0,
+            "parse_failures": 0.0,
+            "repair_attempts": 0.0,
+            "repair_successes": 0.0,
+            "invalid_artifact_refs": 0.0,
+            "invalid_outputs": 0.0,
+        }
         step = 0
 
         def _record_decision(event: DecisionEvent) -> None:
@@ -248,14 +260,47 @@ class Orchestrator:
                 task_description=target_task.description,
                 quality_boost=quality_boost,
             )
+            agent_output = result.get("agent_output")
+            if not isinstance(agent_output, AgentOutput):
+                agent_output = AgentOutput(
+                    status=AgentOutputStatus.INVALID,
+                    summary="Runtime returned non-AgentOutput payload",
+                    artifact_type="invalid_output",
+                    artifact_payload={},
+                    confidence=0.0,
+                    uncertainties=[],
+                    schema_valid=False,
+                    validation_errors=["runtime_payload_missing_agent_output"],
+                )
+            parse_meta = dict(result.get("parse_meta") or {})
 
             # Populate decision metrics after call
             decision.latency_sec = float(result.get("latency_sec", 0.0))
             decision.cost = self._estimate_cost(profile)
+
+            output_validation_stats["agent_calls"] += 1.0
+            if agent_output.schema_valid:
+                output_validation_stats["schema_valid_calls"] += 1.0
+            else:
+                output_validation_stats["invalid_outputs"] += 1.0
+            if bool(parse_meta.get("parse_failed", False)):
+                output_validation_stats["parse_failures"] += 1.0
+            if bool(parse_meta.get("repair_attempted", False)):
+                output_validation_stats["repair_attempts"] += 1.0
+            if bool(parse_meta.get("repair_succeeded", False)):
+                output_validation_stats["repair_successes"] += 1.0
+            invalid_fields = set(parse_meta.get("invalid_runtime_fields") or [])
+            if "artifact_id" in invalid_fields:
+                output_validation_stats["invalid_artifact_refs"] += 1.0
+
+            runtime_success = bool(
+                agent_output.schema_valid
+                and agent_output.status in {AgentOutputStatus.SUCCESS, AgentOutputStatus.PARTIAL_SUCCESS}
+            )
             self._update_episode_agent_stats(
                 episode_agent_stats,
                 agent_type=agent_type,
-                success=bool(result.get("success", False)),
+                success=runtime_success,
                 latency_sec=decision.latency_sec,
                 cost=decision.cost,
             )
@@ -268,18 +313,37 @@ class Orchestrator:
                     event_type="agent_call",
                     actor=agent_type,
                     metadata={
-                        "success": result["success"],
-                        "latency_sec": result["latency_sec"],
+                        "success": runtime_success,
+                        "latency_sec": decision.latency_sec,
+                        "schema_valid": agent_output.schema_valid,
+                        "agent_output_status": agent_output.status.value,
+                        "raw_output_ref": agent_output.raw_output_ref,
                     },
                 )
             )
 
-            if result["success"]:
+            if not agent_output.schema_valid:
+                self._trace.log_trace(
+                    ExecutionTraceEvent(
+                        workflow_id=workflow.workflow_id,
+                        task_id=target_task.task_id,
+                        event_type="invalid_agent_output",
+                        actor=agent_type,
+                        metadata={
+                            "raw_output_ref": agent_output.raw_output_ref,
+                            "validation_errors": list(agent_output.validation_errors),
+                            "repair_attempt_count": agent_output.repair_attempt_count,
+                            "parse_meta": parse_meta,
+                        },
+                    )
+                )
+
+            if runtime_success:
                 # Write artifact to blackboard
                 artifact = self._blackboard.write(
                     workflow_id=workflow.workflow_id,
-                    artifact_type=result["artifact_type"],
-                    content=result["content"],
+                    artifact_type=agent_output.artifact_type,
+                    content=agent_output.artifact_payload,
                     created_by=agent_type,
                 )
                 decision.output_refs = [artifact.artifact_id]
@@ -309,15 +373,94 @@ class Orchestrator:
             benchmark_score=benchmark_score,
             memory_refs_used=unique_memory_refs,
         )
+
+        # Attach LLM-readiness validation metrics to scheduling scores.
+        agent_calls = max(output_validation_stats["agent_calls"], 1.0)
+        repair_attempts = max(output_validation_stats["repair_attempts"], 1.0)
+        evaluation.scheduling_scores["agent_output_schema_valid_rate"] = round(
+            output_validation_stats["schema_valid_calls"] / agent_calls,
+            3,
+        )
+        evaluation.scheduling_scores["parse_failure_rate"] = round(
+            output_validation_stats["parse_failures"] / agent_calls,
+            3,
+        )
+        evaluation.scheduling_scores["repair_success_rate"] = round(
+            output_validation_stats["repair_successes"] / repair_attempts,
+            3,
+        )
+        evaluation.scheduling_scores["invalid_artifact_ref_rate"] = round(
+            output_validation_stats["invalid_artifact_refs"] / agent_calls,
+            3,
+        )
+
+        if output_validation_stats["invalid_outputs"] > 0:
+            if "invalid_agent_output" not in evaluation.failure_factors:
+                evaluation.failure_factors.append("invalid_agent_output")
+
         self._store.put_evaluation(evaluation)
 
         # 6. Curate memory
-        curation_actions: list[tuple] = []
+        curation_actions: list[dict[str, Any]] = []
         if self._curator:
-            curation_actions = self._curator.curate(workflow, evaluation)
+            curation_actions = self._curator.curate(
+                workflow=workflow,
+                evaluation=evaluation,
+                decisions=decisions,
+            )
+
+        total_curation = max(len(curation_actions), 1)
+        accepted_count = sum(1 for item in curation_actions if bool(item.get("accepted")))
+        rejected_count = len(curation_actions) - accepted_count
+        validation_failures = sum(
+            1
+            for item in curation_actions
+            if str(item.get("reason", "")).startswith("validation_failed:")
+        )
+        unsupported_lesson_count = sum(
+            1
+            for item in curation_actions
+            if "unsupported" in str(item.get("reason", ""))
+        )
+        overgeneralized_count = sum(
+            1
+            for item in curation_actions
+            if "overgeneralized" in str(item.get("reason", ""))
+        )
+
+        evaluation.scheduling_scores["memory_validation_failure_rate"] = round(
+            validation_failures / total_curation,
+            3,
+        )
+        evaluation.scheduling_scores["unsupported_lesson_rate"] = round(
+            unsupported_lesson_count / total_curation,
+            3,
+        )
+        evaluation.scheduling_scores["overgeneralized_memory_rate"] = round(
+            overgeneralized_count / total_curation,
+            3,
+        )
+        evaluation.scheduling_scores["curator_accept_rate"] = round(
+            accepted_count / total_curation,
+            3,
+        )
+        evaluation.scheduling_scores["curator_reject_rate"] = round(
+            rejected_count / total_curation,
+            3,
+        )
+        self._store.put_evaluation(evaluation)
 
         # 7. Create and store episode reflection
-        learned_memory_refs = [mid for _, mid in curation_actions if mid]
+        learned_memory_refs = [
+            str(item.get("memory_id"))
+            for item in curation_actions
+            if item.get("memory_id")
+            and bool(item.get("accepted"))
+            and (
+                item.get("action") in {CurationAction.CREATE, CurationAction.UPDATE}
+                or str(item.get("action")) in {CurationAction.CREATE.value, CurationAction.UPDATE.value}
+            )
+        ]
         root_cause_tags = evaluation.failure_factors or evaluation.success_factors
         reflection = EpisodeReflection(
             workflow_id=workflow.workflow_id,

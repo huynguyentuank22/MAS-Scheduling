@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 
 from olm_mas.schemas import (
     AgentProfile,
+    AgentOutput,
+    AgentOutputStatus,
     Artifact,
     ArtifactStatus,
     CurationAction,
@@ -155,6 +157,21 @@ def test_procedural_control_memory():
 def test_curation_action_enum():
     assert CurationAction.CREATE.value == "CREATE"
     assert CurationAction.DEPRECATE.value == "DEPRECATE"
+    assert CurationAction.NEEDS_REVIEW.value == "NEEDS_REVIEW"
+
+
+def test_agent_output_schema():
+    output = AgentOutput(
+        status=AgentOutputStatus.SUCCESS,
+        summary="Completed task",
+        artifact_type="draft",
+        artifact_payload={"text": "ok"},
+        confidence=0.9,
+        uncertainties=[],
+        schema_valid=True,
+    )
+    assert output.status == AgentOutputStatus.SUCCESS
+    assert output.schema_valid is True
 
 
 def test_round_trip_serialization():

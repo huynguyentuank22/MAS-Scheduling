@@ -50,6 +50,14 @@ class CurationAction(str, Enum):
     UPDATE = "UPDATE"
     IGNORE = "IGNORE"
     DEPRECATE = "DEPRECATE"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+
+
+class AgentOutputStatus(str, Enum):
+    SUCCESS = "success"
+    PARTIAL_SUCCESS = "partial_success"
+    FAILED = "failed"
+    INVALID = "invalid"
 
 
 # ---------------------------------------------------------------------------
@@ -109,6 +117,21 @@ class AgentProfile(BaseModel):
     trust_score: float = 0.5
     health: str = "healthy"
     historical_performance: dict[str, Any] = Field(default_factory=dict)
+
+
+class AgentOutput(BaseModel):
+    """Validated agent output payload from an LLM-backed agent runtime."""
+    status: AgentOutputStatus = AgentOutputStatus.INVALID
+    summary: str = ""
+    artifact_type: str = ""
+    artifact_payload: dict[str, Any] = Field(default_factory=dict)
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    uncertainties: list[str] = Field(default_factory=list)
+    requested_next_action: Optional[str] = None
+    raw_output_ref: Optional[str] = None
+    schema_valid: bool = False
+    validation_errors: list[str] = Field(default_factory=list)
+    repair_attempt_count: int = Field(default=0, ge=0)
 
 
 class PolicyRule(BaseModel):
