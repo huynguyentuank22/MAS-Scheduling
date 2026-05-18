@@ -1,0 +1,28 @@
+{
+  "memory_id": "e5e50d0a-21b6-491a-870e-d1c6172a58cf",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "file_question",
+    "source_family": "file_question"
+  },
+  "recommended_schedule": [
+    "planner",
+    "file_reader",
+    "writer",
+    "verifier"
+  ],
+  "avoid": [
+    {
+      "action": "finalize_without_verifier"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.8,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T14:17:50.902852Z",
+  "status": "active"
+}

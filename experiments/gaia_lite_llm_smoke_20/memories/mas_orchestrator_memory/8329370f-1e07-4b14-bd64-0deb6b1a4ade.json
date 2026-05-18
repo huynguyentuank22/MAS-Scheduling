@@ -1,0 +1,29 @@
+{
+  "memory_id": "8329370f-1e07-4b14-bd64-0deb6b1a4ade",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "multi_hop",
+    "source_family": "multi_hop"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "critic",
+    "writer",
+    "verifier"
+  ],
+  "avoid": [
+    {
+      "action": "writer_before_critic"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.84,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T14:17:50.902852Z",
+  "status": "active"
+}

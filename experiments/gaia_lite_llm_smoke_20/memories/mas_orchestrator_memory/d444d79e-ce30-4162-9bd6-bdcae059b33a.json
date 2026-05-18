@@ -1,0 +1,29 @@
+{
+  "memory_id": "d444d79e-ce30-4162-9bd6-bdcae059b33a",
+  "trigger": {
+    "benchmark": "gaia_lite",
+    "task_family": "verification_heavy",
+    "source_family": "verification_heavy"
+  },
+  "recommended_schedule": [
+    "planner",
+    "researcher",
+    "critic",
+    "verifier",
+    "writer"
+  ],
+  "avoid": [
+    {
+      "action": "finalize_without_verifier"
+    }
+  ],
+  "recommended_recovery": [],
+  "recommended_policy_template": null,
+  "confidence": 0.83,
+  "supporting_episodes": [
+    "seeded"
+  ],
+  "negative_cases": [],
+  "last_updated": "2026-05-12T14:20:20.263524Z",
+  "status": "active"
+}

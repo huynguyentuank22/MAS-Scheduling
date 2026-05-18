@@ -6,6 +6,7 @@ optionally retrieved ProceduralControlMemory.
 
 from __future__ import annotations
 
+import re
 from typing import Any, Optional
 
 from .schemas import (
@@ -54,6 +55,7 @@ _AVOID_SUBMIT_BEFORE_CHECK = "submit_before_required_field_check"
 
 _CHANGE_ELIGIBILITY_THRESHOLD = 0.7
 _SUPPORT_ONLY_THRESHOLD = 0.4
+_ORACLE_TAG_PATTERN = re.compile(r"\[ORACLE_[^\]]+\]", re.IGNORECASE)
 
 
 class Scheduler:
@@ -601,11 +603,28 @@ class Scheduler:
         )
 
     def _select_agent_without_memory(self, task: TaskNode) -> str:
-        desc_lower = task.description.lower()
+        desc_lower = self._normalize_task_text(task.description)
+
+        # Priority rules to avoid weak keyword collisions (e.g. "write ... evidence").
+        if any(k in desc_lower for k in ("verify", "critique", "check", "review")) and self._registry.get("critic"):
+            return "critic"
+        if any(k in desc_lower for k in ("write", "draft", "synthesize")) and self._registry.get("writer"):
+            return "writer"
+        if any(k in desc_lower for k in ("plan", "decompose")) and self._registry.get("planner"):
+            return "planner"
+        if any(k in desc_lower for k in ("recover", "diagnose", "retry", "fix")) and self._registry.get("recovery"):
+            return "recovery"
+
         for keyword, agent_type in _KEYWORD_AGENT_MAP.items():
             if keyword in desc_lower and self._registry.get(agent_type):
                 return agent_type
         return "writer"
+
+    @staticmethod
+    def _normalize_task_text(text: str) -> str:
+        normalized = _ORACLE_TAG_PATTERN.sub(" ", text or "")
+        normalized = re.sub(r"\s+", " ", normalized).strip().lower()
+        return normalized
 
     def _find_task(self, tasks: list[TaskNode], task_id: Optional[str]) -> Optional[TaskNode]:
         if not task_id:

@@ -128,6 +128,9 @@ class Orchestrator:
             "repair_successes": 0.0,
             "invalid_artifact_refs": 0.0,
             "invalid_outputs": 0.0,
+            "llm_setup_errors": 0.0,
+            "failed_status_calls": 0.0,
+            "task_success_calls": 0.0,
         }
         step = 0
 
@@ -297,6 +300,15 @@ class Orchestrator:
                 agent_output.schema_valid
                 and agent_output.status in {AgentOutputStatus.SUCCESS, AgentOutputStatus.PARTIAL_SUCCESS}
             )
+            if agent_output.status == AgentOutputStatus.FAILED:
+                output_validation_stats["failed_status_calls"] += 1.0
+                summary_text = str(agent_output.summary or "").lower()
+                payload_error = str(agent_output.artifact_payload.get("error", "")).lower()
+                merged_text = f"{summary_text} {payload_error}".strip()
+                if "api key" in merged_text and "missing" in merged_text:
+                    output_validation_stats["llm_setup_errors"] += 1.0
+            if runtime_success:
+                output_validation_stats["task_success_calls"] += 1.0
             self._update_episode_agent_stats(
                 episode_agent_stats,
                 agent_type=agent_type,
@@ -345,6 +357,12 @@ class Orchestrator:
                     artifact_type=agent_output.artifact_type,
                     content=agent_output.artifact_payload,
                     created_by=agent_type,
+                    metadata={
+                        "agent_output_status": agent_output.status.value,
+                        "schema_valid": agent_output.schema_valid,
+                        "raw_output_ref": agent_output.raw_output_ref,
+                        "summary": agent_output.summary,
+                    },
                 )
                 decision.output_refs = [artifact.artifact_id]
                 target_task.state = TaskState.DONE
@@ -391,6 +409,18 @@ class Orchestrator:
         )
         evaluation.scheduling_scores["invalid_artifact_ref_rate"] = round(
             output_validation_stats["invalid_artifact_refs"] / agent_calls,
+            3,
+        )
+        evaluation.scheduling_scores["llm_setup_error_rate"] = round(
+            output_validation_stats["llm_setup_errors"] / agent_calls,
+            3,
+        )
+        evaluation.scheduling_scores["agent_failed_status_rate"] = round(
+            output_validation_stats["failed_status_calls"] / agent_calls,
+            3,
+        )
+        evaluation.scheduling_scores["agent_task_success_rate"] = round(
+            output_validation_stats["task_success_calls"] / agent_calls,
             3,
         )
 

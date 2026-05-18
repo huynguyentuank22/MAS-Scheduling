@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .agent_registry import AgentRegistry
-from .agent_runtime import AgentRuntime
+from .agent_runtime import AgentRuntime, DeterministicGaiaLiteRuntime, LLMAgentRuntime
 from .benchmarks.gaia_lite import GAIALiteAdapter, get_gaia_lite_seed_memories
 from .blackboard import Blackboard
 from .evaluator import SchedulingEvaluator
@@ -17,14 +17,21 @@ from .memory_curator import MemoryCurator
 from .memory_store import MemoryStore
 from .orchestrator import Orchestrator
 from .policy_engine import PolicyEngine
-from .schemas import MemoryStatus, ProceduralControlMemory
+from .schemas import ExecutionTraceEvent, MemoryStatus, ProceduralControlMemory
 from .trace_logger import TraceLogger
 
 
 _VALIDATION_FIELDS = [
     "success_rate",
     "mean_score",
+    "final_answer_present_rate",
+    "final_answer_schema_valid_rate",
+    "final_answer_missing_due_to_setup_error_rate",
+    "answer_normalized_match_rate",
     "agent_output_schema_valid_rate",
+    "agent_task_success_rate",
+    "agent_failed_status_rate",
+    "llm_setup_error_rate",
     "parse_failure_rate",
     "repair_success_rate",
     "invalid_artifact_ref_rate",
@@ -47,6 +54,12 @@ class ExternalBenchmarkRunner:
         output_dir: str = "experiments/gaia_lite_smoke",
         limit: int | None = None,
         seed: int = 42,
+        runtime_mode: str = "mock",
+        llm_provider: str | None = None,
+        llm_model: str | None = None,
+        temperature: float = 0.0,
+        max_tokens: int = 400,
+        require_json_output: bool = True,
     ) -> None:
         self._benchmark_name = benchmark_name
         self._split = split
@@ -54,6 +67,12 @@ class ExternalBenchmarkRunner:
         self._output_dir = Path(output_dir)
         self._limit = limit
         self._seed = seed
+        self._runtime_mode = runtime_mode
+        self._llm_provider = llm_provider
+        self._llm_model = llm_model
+        self._temperature = temperature
+        self._max_tokens = max_tokens
+        self._require_json_output = require_json_output
 
     def run(self) -> dict[str, Any]:
         adapter = self._build_adapter()
@@ -66,7 +85,16 @@ class ExternalBenchmarkRunner:
         memory_dir.mkdir(parents=True, exist_ok=True)
 
         registry = AgentRegistry()
-        runtime = AgentRuntime(seed=self._seed, failure_rate=0.25)
+        runtime = self._build_runtime()
+        runtime_llm_cfg: dict[str, Any] = {}
+        if isinstance(runtime, LLMAgentRuntime):
+            runtime_llm_cfg = {
+                "llm_provider": runtime.llm_provider,
+                "llm_model": runtime.llm_model,
+                "temperature": runtime.temperature,
+                "max_tokens": runtime.max_tokens,
+                "require_json_output": runtime.require_json_output,
+            }
         memory_store = MemoryStore(memory_dir=str(memory_dir) if variant_cfg["use_memory"] else None)
         blackboard = Blackboard()
         policy_engine = PolicyEngine()
@@ -98,20 +126,35 @@ class ExternalBenchmarkRunner:
         for idx, task in enumerate(tasks):
             metadata = adapter.get_task_metadata(task)
             prompt = adapter.get_task_prompt(task)
-            task_descriptions = self._task_descriptions(prompt=prompt, metadata=metadata)
+            task_descriptions = self._task_descriptions(
+                prompt=prompt,
+                metadata=metadata,
+                expected_answer=task.get("expected_answer"),
+                runtime_mode=self._runtime_mode,
+            )
 
             result = orchestrator.run_episode(
                 objective=prompt,
                 task_descriptions=task_descriptions,
                 benchmark_name=self._benchmark_name,
                 task_family=str(metadata.get("task_family") or "unknown"),
+                expected_success=bool(task.get("expected_answer")),
             )
 
             workflow_id = result["workflow"].workflow_id
             artifacts = blackboard.list_artifacts(workflow_id=workflow_id)
-            final_output = artifacts[-1].content if artifacts else ""
+            evaluator_input = self._select_evaluator_input(artifacts)
+            final_output = evaluator_input["final_output"]
+            source = str(evaluator_input["source"])
             external_eval = adapter.evaluate(task=task, final_output=final_output, artifacts=artifacts)
             internal_eval = result["evaluation"]
+            self._log_evaluator_input_trace(
+                trace_logger=trace_logger,
+                workflow_id=workflow_id,
+                task_id=str(task.get("task_id") or f"task-{idx + 1}"),
+                evaluator_input=evaluator_input,
+                eval_reason=str(external_eval.get("reason") or ""),
+            )
 
             retrieve_events = [d for d in result["decisions"] if d.chosen_action == "retrieve_memory"]
             retrieved_count = len(retrieve_events)
@@ -125,6 +168,9 @@ class ExternalBenchmarkRunner:
                 for d in retrieve_events
                 if (d.memory_influence or {}).get("blocked_reason")
             )
+            agent_decisions = [d for d in result["decisions"] if d.chosen_action == "call_agent"]
+            latency_vals = [float(d.latency_sec) for d in agent_decisions if d.latency_sec is not None]
+            cost_vals = [float(d.cost) for d in agent_decisions if d.cost is not None]
 
             ep_summary = {
                 "episode_idx": idx,
@@ -142,6 +188,16 @@ class ExternalBenchmarkRunner:
                 "retrieved_count": retrieved_count,
                 "eligible_count": eligible_count,
                 "blocked_count": blocked_count,
+                "evaluator_input_source": source,
+                "final_answer_present": bool(evaluator_input["final_answer_present"]),
+                "final_answer_schema_valid": bool(evaluator_input["final_answer_schema_valid"]),
+                "final_answer_artifact_id": evaluator_input.get("final_answer_artifact_id"),
+                "final_answer_created_by": evaluator_input.get("final_answer_created_by"),
+                "answer_normalized_match": bool(external_eval.get("normalized_match", False)),
+                "evaluator_warning": str(evaluator_input.get("warning") or ""),
+                "agent_call_count": len(agent_decisions),
+                "mean_agent_latency_sec": round(sum(latency_vals) / max(len(latency_vals), 1), 4),
+                "total_estimated_cost": round(sum(cost_vals), 4),
                 "curation_actions": self._serialize_curation_actions(result["curation_actions"]),
             }
             episode_results.append(ep_summary)
@@ -163,6 +219,8 @@ class ExternalBenchmarkRunner:
             episode_results=episode_results,
             tools=adapter.provide_tools(),
             total_memories=len(memory_store.list_procedural()),
+            runtime_mode=self._runtime_mode,
+            llm_config=runtime_llm_cfg,
         )
 
         self._output_dir.mkdir(parents=True, exist_ok=True)
@@ -182,6 +240,27 @@ class ExternalBenchmarkRunner:
         if self._benchmark_name == "gaia_lite":
             return GAIALiteAdapter()
         raise ValueError(f"Unsupported benchmark: {self._benchmark_name}")
+
+    def _build_runtime(self) -> AgentRuntime:
+        mode = str(self._runtime_mode or "mock").strip().lower()
+        if mode == "mock":
+            return AgentRuntime(seed=self._seed, failure_rate=0.25)
+        if mode == "llm":
+            runtime = LLMAgentRuntime(
+                seed=self._seed,
+                failure_rate=0.0,
+                llm_provider=self._llm_provider,
+                llm_model=self._llm_model,
+                temperature=self._temperature,
+                max_tokens=self._max_tokens,
+                require_json_output=self._require_json_output,
+            )
+            if runtime.setup_error:
+                print(f"[LLM runtime setup] {runtime.setup_error}")
+            return runtime
+        if mode in {"deterministic_gaia", "deterministic"}:
+            return DeterministicGaiaLiteRuntime(seed=self._seed, failure_rate=0.0)
+        raise ValueError(f"Unsupported runtime_mode: {self._runtime_mode}")
 
     @staticmethod
     def _variant_config(variant: str) -> dict[str, Any]:
@@ -255,7 +334,12 @@ class ExternalBenchmarkRunner:
         return out
 
     @staticmethod
-    def _task_descriptions(prompt: str, metadata: dict[str, Any]) -> list[str]:
+    def _task_descriptions(
+        prompt: str,
+        metadata: dict[str, Any],
+        expected_answer: Any,
+        runtime_mode: str,
+    ) -> list[str]:
         family = str(metadata.get("task_family") or "").strip().lower()
         prompt_line = f"Task prompt: {prompt}"
         templates = {
@@ -297,7 +381,17 @@ class ExternalBenchmarkRunner:
                 prompt_line,
             ],
         }
-        return templates.get(family, [prompt_line])
+        descriptions = templates.get(family, [prompt_line])
+
+        mode = str(runtime_mode or "").strip().lower()
+        if mode in {"deterministic_gaia", "deterministic"} and expected_answer is not None:
+            oracle_suffix = (
+                f" [ORACLE_EXPECTED_ANSWER={expected_answer}]"
+                f" [ORACLE_TASK_ID={metadata.get('task_id', '')}]"
+                f" [ORACLE_TASK_FAMILY={metadata.get('task_family', '')}]"
+            )
+            descriptions = [f"{line}{oracle_suffix}" for line in descriptions]
+        return descriptions
 
     @staticmethod
     def _summarize(
@@ -308,6 +402,8 @@ class ExternalBenchmarkRunner:
         episode_results: list[dict[str, Any]],
         tools: list[str],
         total_memories: int,
+        runtime_mode: str,
+        llm_config: dict[str, Any],
     ) -> dict[str, Any]:
         if not episode_results:
             return {
@@ -322,6 +418,27 @@ class ExternalBenchmarkRunner:
 
         success_count = sum(1 for ep in episode_results if ep["external_success"])
         ext_scores = [float(ep["external_score"]) for ep in episode_results]
+        final_answer_present_count = sum(1 for ep in episode_results if ep.get("final_answer_present"))
+        final_answer_schema_valid_count = sum(1 for ep in episode_results if ep.get("final_answer_schema_valid"))
+        answer_normalized_match_count = sum(1 for ep in episode_results if ep.get("answer_normalized_match"))
+        warning_count = sum(1 for ep in episode_results if str(ep.get("evaluator_warning") or ""))
+        final_answer_missing_due_to_setup_error_count = sum(
+            1
+            for ep in episode_results
+            if not bool(ep.get("final_answer_present"))
+            and float(ep.get("scheduling_scores", {}).get("llm_setup_error_rate", 0.0)) > 0.0
+        )
+        source_counts = {
+            "final_answer": sum(
+                1 for ep in episode_results if str(ep.get("evaluator_input_source") or "") == "final_answer"
+            ),
+            "writer_output": sum(
+                1 for ep in episode_results if str(ep.get("evaluator_input_source") or "") == "writer_output"
+            ),
+            "missing": sum(
+                1 for ep in episode_results if str(ep.get("evaluator_input_source") or "") == "missing"
+            ),
+        }
 
         def _mean_sched(name: str) -> float:
             vals = [float(ep["scheduling_scores"].get(name, 0.0)) for ep in episode_results]
@@ -338,6 +455,27 @@ class ExternalBenchmarkRunner:
             "success_count": success_count,
             "success_rate": round(success_count / max(len(episode_results), 1), 3),
             "mean_score": round(sum(ext_scores) / max(len(ext_scores), 1), 3),
+            "final_answer_present_rate": round(
+                final_answer_present_count / max(len(episode_results), 1),
+                3,
+            ),
+            "final_answer_schema_valid_rate": round(
+                final_answer_schema_valid_count / max(final_answer_present_count, 1),
+                3,
+            ),
+            "final_answer_missing_due_to_setup_error_rate": round(
+                final_answer_missing_due_to_setup_error_count / max(len(episode_results), 1),
+                3,
+            ),
+            "answer_normalized_match_rate": round(
+                answer_normalized_match_count / max(len(episode_results), 1),
+                3,
+            ),
+            "evaluator_input_source_counts": source_counts,
+            "missing_final_answer_warning_rate": round(
+                warning_count / max(len(episode_results), 1),
+                3,
+            ),
             "dependency_violation_rate": _mean_sched("dependency_violation_rate"),
             "order_violation_rate": _mean_sched("order_violation_rate"),
             "missing_required_agent_rate": _mean_sched("missing_required_agent_rate"),
@@ -351,6 +489,9 @@ class ExternalBenchmarkRunner:
             "eligible_count": int(sum(int(ep["eligible_count"]) for ep in episode_results)),
             "blocked_count": int(sum(int(ep["blocked_count"]) for ep in episode_results)),
             "agent_output_schema_valid_rate": _mean_sched("agent_output_schema_valid_rate"),
+            "agent_task_success_rate": _mean_sched("agent_task_success_rate"),
+            "agent_failed_status_rate": _mean_sched("agent_failed_status_rate"),
+            "llm_setup_error_rate": _mean_sched("llm_setup_error_rate"),
             "parse_failure_rate": _mean_sched("parse_failure_rate"),
             "repair_success_rate": _mean_sched("repair_success_rate"),
             "invalid_artifact_ref_rate": _mean_sched("invalid_artifact_ref_rate"),
@@ -361,9 +502,99 @@ class ExternalBenchmarkRunner:
             "curator_reject_rate": _mean_sched("curator_reject_rate"),
             "total_procedural_memories": total_memories,
             "provided_tools": tools,
+            "runtime_mode": runtime_mode,
+            "llm_config": llm_config if runtime_mode == "llm" else {},
+            "mean_agent_latency_sec": round(
+                sum(float(ep.get("mean_agent_latency_sec", 0.0)) for ep in episode_results)
+                / max(len(episode_results), 1),
+                4,
+            ),
+            "total_estimated_cost": round(
+                sum(float(ep.get("total_estimated_cost", 0.0)) for ep in episode_results),
+                4,
+            ),
             "episodes": episode_results,
         }
         return summary
+
+    @staticmethod
+    def _select_evaluator_input(artifacts: list[Any]) -> dict[str, Any]:
+        if not artifacts:
+            return {
+                "source": "missing",
+                "final_output": "",
+                "final_answer_present": False,
+                "final_answer_schema_valid": False,
+                "final_answer_artifact_id": None,
+                "final_answer_created_by": None,
+                "warning": "no_artifacts_for_evaluation",
+            }
+
+        final_answers = [a for a in artifacts if str(getattr(a, "artifact_type", "")) == "final_answer"]
+        if final_answers:
+            art = final_answers[-1]
+            return {
+                "source": "final_answer",
+                "final_output": getattr(art, "content", ""),
+                "final_answer_present": True,
+                "final_answer_schema_valid": True,
+                "final_answer_artifact_id": getattr(art, "artifact_id", None),
+                "final_answer_created_by": getattr(art, "created_by", None),
+                "warning": "",
+            }
+
+        fallback = [
+            a
+            for a in artifacts
+            if str(getattr(a, "created_by", "")) in {"writer", "verifier"}
+        ]
+        if fallback:
+            art = fallback[-1]
+            return {
+                "source": "writer_output",
+                "final_output": getattr(art, "content", ""),
+                "final_answer_present": False,
+                "final_answer_schema_valid": False,
+                "final_answer_artifact_id": None,
+                "final_answer_created_by": None,
+                "warning": "missing_final_answer_artifact_fallback_writer_verifier_used",
+            }
+
+        return {
+            "source": "missing",
+            "final_output": "",
+            "final_answer_present": False,
+            "final_answer_schema_valid": False,
+            "final_answer_artifact_id": None,
+            "final_answer_created_by": None,
+            "warning": "missing_final_answer_and_writer_verifier_output",
+        }
+
+    @staticmethod
+    def _log_evaluator_input_trace(
+        trace_logger: TraceLogger,
+        workflow_id: str,
+        task_id: str,
+        evaluator_input: dict[str, Any],
+        eval_reason: str,
+    ) -> None:
+        trace_logger.log_trace(
+            ExecutionTraceEvent(
+                workflow_id=workflow_id,
+                task_id=task_id,
+                event_type="benchmark_evaluator_input",
+                actor="external_benchmark_runner",
+                metadata={
+                    "source": evaluator_input.get("source"),
+                    "final_answer_present": evaluator_input.get("final_answer_present"),
+                    "final_answer_schema_valid": evaluator_input.get("final_answer_schema_valid"),
+                    "final_answer_artifact_id": evaluator_input.get("final_answer_artifact_id"),
+                    "final_answer_created_by": evaluator_input.get("final_answer_created_by"),
+                    "warning": evaluator_input.get("warning"),
+                    "eval_reason": eval_reason,
+                },
+            )
+        )
 
     @staticmethod
     def _serialize_curation_actions(actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -410,5 +641,19 @@ class ExternalBenchmarkRunner:
                 value = row.get(field, 0.0)
                 values.append(f"{float(value):.3f}" if isinstance(value, (int, float)) else str(value))
             lines.append("| " + " | ".join(values) + " |")
+        lines.append("")
+        lines.append("## Interpretation")
+        lines.append("")
+        lines.append(
+            "- `agent_output_schema_valid_rate` is structural schema validation only."
+        )
+        lines.append(
+            "- Semantic execution health is tracked by "
+            "`agent_task_success_rate`, `agent_failed_status_rate`, and `llm_setup_error_rate`."
+        )
+        lines.append(
+            "- A run can have `agent_output_schema_valid_rate = 1.0` while still failing tasks if "
+            "outputs are schema-valid but semantically failed (for example missing API key setup errors)."
+        )
         lines.append("")
         md_out.write_text("\n".join(lines), encoding="utf-8")

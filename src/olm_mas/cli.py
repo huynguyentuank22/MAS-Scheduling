@@ -73,6 +73,42 @@ def main(argv: list[str] | None = None) -> None:
         default="experiments/gaia_lite_smoke",
         help="Directory for output metrics and traces",
     )
+    benchmark_parser.add_argument(
+        "--runtime-mode",
+        type=str,
+        default="mock",
+        help="Runtime mode (mock|llm|deterministic_gaia)",
+    )
+    benchmark_parser.add_argument(
+        "--llm-provider",
+        type=str,
+        default=None,
+        help="LLM provider for runtime_mode=llm (openai|openai_compatible)",
+    )
+    benchmark_parser.add_argument(
+        "--llm-model",
+        type=str,
+        default=None,
+        help="LLM model name for runtime_mode=llm",
+    )
+    benchmark_parser.add_argument(
+        "--temperature",
+        type=float,
+        default=0.0,
+        help="Sampling temperature for runtime_mode=llm",
+    )
+    benchmark_parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=400,
+        help="Max tokens for runtime_mode=llm",
+    )
+    benchmark_parser.add_argument(
+        "--require-json-output",
+        type=str,
+        default="true",
+        help="Whether to request JSON-mode output from provider (true|false)",
+    )
 
     args = parser.parse_args(argv)
 
@@ -99,6 +135,12 @@ def main(argv: list[str] | None = None) -> None:
             limit=args.limit,
             variant=args.variant,
             output_dir=args.output_dir,
+            runtime_mode=args.runtime_mode,
+            llm_provider=args.llm_provider,
+            llm_model=args.llm_model,
+            temperature=args.temperature,
+            max_tokens=args.max_tokens,
+            require_json_output=str(args.require_json_output).strip().lower() in {"1", "true", "yes", "y"},
         )
         runner.run()
         print("\nDone.")

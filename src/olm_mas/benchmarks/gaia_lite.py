@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -120,18 +121,32 @@ class GAIALiteAdapter(BenchmarkAdapter):
         artifacts: list[Any],
     ) -> dict[str, Any]:
         expected = task.get("expected_answer")
-        output_text = self._stringify_output(final_output)
-        output_norm = output_text.strip().lower()
+        output_text = self._extract_answer_text(final_output)
+        output_norm = self._normalize_answer(output_text)
+        expected_text = "" if expected is None else str(expected)
+        expected_norm = self._normalize_answer(expected_text)
+        family = str(task.get("task_family") or "")
+        normalized_match = bool(expected is not None and output_norm == expected_norm)
+        numeric_tolerance_match = False
 
         if expected is None:
             success = bool(output_norm)
             score = 1.0 if success else 0.0
             reason = "non_empty_output" if success else "empty_output"
         else:
-            expected_norm = str(expected).strip().lower()
-            success = expected_norm in output_norm
+            numeric_tolerance_match = self._numeric_match_with_tolerance(
+                expected_norm=expected_norm,
+                output_norm=output_norm,
+                task_family=family,
+            )
+            success = normalized_match or numeric_tolerance_match
             score = 1.0 if success else 0.0
-            reason = "contains_expected_answer" if success else "missing_expected_answer"
+            if normalized_match:
+                reason = "normalized_exact_match"
+            elif numeric_tolerance_match:
+                reason = "numeric_tolerance_match"
+            else:
+                reason = "missing_expected_answer"
 
         return {
             "success": bool(success),
@@ -139,6 +154,11 @@ class GAIALiteAdapter(BenchmarkAdapter):
             "reason": reason,
             "artifact_count": len(artifacts),
             "has_expected_answer": expected is not None,
+            "output_text": output_text,
+            "output_normalized": output_norm,
+            "expected_normalized": expected_norm,
+            "normalized_match": normalized_match,
+            "numeric_tolerance_match": numeric_tolerance_match,
         }
 
     @staticmethod
@@ -154,3 +174,34 @@ class GAIALiteAdapter(BenchmarkAdapter):
         if isinstance(final_output, list):
             return json.dumps(final_output, ensure_ascii=True)
         return str(final_output)
+
+    def _extract_answer_text(self, final_output: Any) -> str:
+        if isinstance(final_output, dict):
+            for key in ("answer", "final_answer", "value", "text"):
+                value = final_output.get(key)
+                if isinstance(value, (str, int, float, bool)):
+                    return str(value)
+        return self._stringify_output(final_output)
+
+    @staticmethod
+    def _normalize_answer(text: str) -> str:
+        out = str(text or "").strip().lower()
+        out = re.sub(r"[^\w\s\.\-]", "", out)
+        out = re.sub(r"\s+", " ", out).strip()
+        return out
+
+    @staticmethod
+    def _numeric_match_with_tolerance(
+        expected_norm: str,
+        output_norm: str,
+        task_family: str,
+        tolerance: float = 1e-6,
+    ) -> bool:
+        if task_family.strip().lower() != "numeric_reasoning":
+            return False
+        try:
+            expected_val = float(expected_norm)
+            output_val = float(output_norm)
+        except (TypeError, ValueError):
+            return False
+        return abs(expected_val - output_val) <= tolerance

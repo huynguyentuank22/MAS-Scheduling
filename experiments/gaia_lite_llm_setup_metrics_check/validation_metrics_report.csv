@@ -1,0 +1,2 @@
+variant,success_rate,mean_score,final_answer_present_rate,final_answer_schema_valid_rate,final_answer_missing_due_to_setup_error_rate,answer_normalized_match_rate,agent_output_schema_valid_rate,agent_task_success_rate,agent_failed_status_rate,llm_setup_error_rate,parse_failure_rate,repair_success_rate,invalid_artifact_ref_rate,memory_validation_failure_rate,unsupported_lesson_rate,overgeneralized_memory_rate,curator_accept_rate,curator_reject_rate
+mas_orchestrator_memory,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0
